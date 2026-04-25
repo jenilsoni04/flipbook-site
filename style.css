@@ -14,10 +14,12 @@ body{
 
 .page{
     background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .page canvas{
     width:100%;
     height:100%;
-    object-fit:contain;
 }

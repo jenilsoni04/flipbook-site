@@ -1,11 +1,10 @@
 const pdfUrls = [
-    "./pdfs/mag1.pdf",
-    "./pdfs/mag2.pdf"
+    "./pdfs/mag1.pdf"
 ];
 
 async function loadPDFs() {
 
-    const flipbook = document.getElementById("flipbook");
+    const pages = [];
 
     for (const pdfUrl of pdfUrls) {
 
@@ -18,6 +17,7 @@ async function loadPDFs() {
             const viewport = page.getViewport({ scale: 1.5 });
 
             const canvas = document.createElement("canvas");
+
             const context = canvas.getContext("2d");
 
             canvas.width = viewport.width;
@@ -28,20 +28,27 @@ async function loadPDFs() {
                 viewport: viewport
             }).promise;
 
-            const pageDiv = document.createElement("div");
-            pageDiv.className = "page";
+            const div = document.createElement("div");
 
-            pageDiv.appendChild(canvas);
+            div.className = "page";
 
-            flipbook.appendChild(pageDiv);
+            div.appendChild(canvas);
+
+            pages.push(div);
         }
     }
 
-    $("#flipbook").turn({
-        width: 800,
-        height: 600,
-        autoCenter: true
-    });
+    const pageFlip = new St.PageFlip(
+        document.getElementById("flipbook"),
+        {
+            width: 400,
+            height: 600,
+            showCover: true,
+            mobileScrollSupport: false
+        }
+    );
+
+    pageFlip.loadFromHTML(pages);
 }
 
 loadPDFs();
