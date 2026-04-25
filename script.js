@@ -36,7 +36,8 @@ async function loadPDF() {
     $("#flipbook").turn({
         width: 800,
         height: 600,
-        autoCenter: true
+        autoCenter: true,
+        gradients: true
     });
 }
 
