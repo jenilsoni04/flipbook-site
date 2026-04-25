@@ -37,7 +37,20 @@ async function loadPDF() {
         width: 800,
         height: 600,
         autoCenter: true,
-        gradients: true
+        gradients: true,
+        display: "double",
+        elevation: 50
+    });
+    $("#flipbook").click(function(e){
+
+        const width = $(this).width();
+        const x = e.pageX - $(this).offset().left;
+
+        if(x < width / 2){
+            $(this).turn("previous");
+        } else {
+            $(this).turn("next");
+        }
     });
 }
 
