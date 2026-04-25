@@ -1,54 +1,43 @@
-const pdfUrls = [
-    "./pdfs/mag1.pdf"
-];
+const pdfUrl = "./pdfs/mag1.pdf";
 
-async function loadPDFs() {
+async function loadPDF() {
 
-    const pages = [];
+    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
 
-    for (const pdfUrl of pdfUrls) {
+    const flipbook = document.getElementById("flipbook");
 
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+    for (let i = 1; i <= pdf.numPages; i++) {
 
-        for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
 
-            const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1 });
 
-            const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement("canvas");
 
-            const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
 
-            const context = canvas.getContext("2d");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
 
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+        await page.render({
+            canvasContext: context,
+            viewport: viewport
+        }).promise;
 
-            await page.render({
-                canvasContext: context,
-                viewport: viewport
-            }).promise;
+        const div = document.createElement("div");
 
-            const div = document.createElement("div");
+        div.className = "page";
 
-            div.className = "page";
+        div.appendChild(canvas);
 
-            div.appendChild(canvas);
-
-            pages.push(div);
-        }
+        flipbook.appendChild(div);
     }
 
-    const pageFlip = new St.PageFlip(
-        document.getElementById("flipbook"),
-        {
-            width: 400,
-            height: 600,
-            showCover: true,
-            mobileScrollSupport: false
-        }
-    );
-
-    pageFlip.loadFromHTML(pages);
+    $("#flipbook").turn({
+        width: 800,
+        height: 600,
+        autoCenter: true
+    });
 }
 
-loadPDFs();
+loadPDF();
