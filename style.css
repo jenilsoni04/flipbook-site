@@ -1,28 +1,23 @@
 body{
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    margin:0;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
 #flipbook{
-    width: 800px;
-    height: 600px;
-    margin: auto;
+    width:800px;
+    height:600px;
 }
 
 .page{
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    background:white;
 }
 
 .page canvas{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width:100%;
+    height:100%;
+    object-fit:contain;
 }

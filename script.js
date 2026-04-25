@@ -5,7 +5,7 @@ const pdfUrls = [
 
 async function loadPDFs() {
 
-    const pages = [];
+    const flipbook = document.getElementById("flipbook");
 
     for (const pdfUrl of pdfUrls) {
 
@@ -28,27 +28,20 @@ async function loadPDFs() {
                 viewport: viewport
             }).promise;
 
-            // Create flipbook page
-            const pageElement = document.createElement("div");
-            pageElement.classList.add("page");
+            const pageDiv = document.createElement("div");
+            pageDiv.className = "page";
 
-            pageElement.appendChild(canvas);
+            pageDiv.appendChild(canvas);
 
-            pages.push(pageElement);
+            flipbook.appendChild(pageDiv);
         }
     }
 
-    const flipbook = new St.PageFlip(
-        document.getElementById("flipbook"),
-        {
-            width: 400,
-            height: 600,
-            showCover: true,
-            mobileScrollSupport: false,
-        }
-    );
-
-    flipbook.loadFromHTML(pages);
+    $("#flipbook").turn({
+        width: 800,
+        height: 600,
+        autoCenter: true
+    });
 }
 
 loadPDFs();
