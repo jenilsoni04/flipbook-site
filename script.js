@@ -1,28 +1,41 @@
-const pdfUrl = "./pdfs/mag1.pdf";
+const pdfUrls = [
+    "./pdfs/mag1.pdf",
+    "./pdfs/mag2.pdf"
+];
 
-pdfjsLib.getDocument(pdfUrl).promise.then(async pdf => {
+async function loadPDFs() {
 
     const pages = [];
 
-    for(let i = 1; i <= pdf.numPages; i++){
+    for (const pdfUrl of pdfUrls) {
 
-        const page = await pdf.getPage(i);
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
 
-        const viewport = page.getViewport({scale:1.5});
+        for (let i = 1; i <= pdf.numPages; i++) {
 
-        const canvas = document.createElement("canvas");
+            const page = await pdf.getPage(i);
 
-        const context = canvas.getContext("2d");
+            const viewport = page.getViewport({ scale: 1.5 });
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
 
-        await page.render({
-            canvasContext: context,
-            viewport: viewport
-        }).promise;
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
 
-        pages.push(canvas);
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+
+            // Create flipbook page
+            const pageElement = document.createElement("div");
+            pageElement.classList.add("page");
+
+            pageElement.appendChild(canvas);
+
+            pages.push(pageElement);
+        }
     }
 
     const flipbook = new St.PageFlip(
@@ -30,8 +43,12 @@ pdfjsLib.getDocument(pdfUrl).promise.then(async pdf => {
         {
             width: 400,
             height: 600,
+            showCover: true,
+            mobileScrollSupport: false,
         }
     );
 
     flipbook.loadFromHTML(pages);
-});
+}
+
+loadPDFs();
