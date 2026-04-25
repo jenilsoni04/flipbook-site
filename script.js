@@ -1,4 +1,4 @@
-const pdfUrl = "pdfs/mag1.pdf";
+const pdfUrl = "pdfs/mag1.pdfs";
 
 pdfjsLib.getDocument(pdfUrl).promise.then(async pdf => {
 
