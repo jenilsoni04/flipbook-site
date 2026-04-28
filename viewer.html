@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flipbook Viewer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="./libs/turn.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+
+<body class="page-viewer">
+
+  <!-- Loading Overlay -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <p id="loader-text">Loading PDF…</p>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div id="viewer-wrap">
+
+    <!-- Top Bar -->
+    <div id="top-bar">
+      <a id="back-btn" href="./index.html" title="Back to Library">← Library</a>
+      <span id="pdf-title">Flipbook</span>
+      <span id="page-counter">Page — / —</span>
+    </div>
+
+    <!-- Flipbook Stage -->
+    <div id="stage">
+      <div id="stage-inner">
+        <button id="btn-prev" class="nav-btn" title="Previous page">&#8249;</button>
+        <div id="flipbook"></div>
+        <button id="btn-next" class="nav-btn" title="Next page">&#8250;</button>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div id="bottom-bar">
+      <span id="hint">Click left / right half or use arrow buttons to flip</span>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>

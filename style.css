@@ -1,25 +1,450 @@
-body{
-    margin:0;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0d12;
+  --surface:   #18182a;
+  --surface-2: #20203a;
+  --border:    rgba(255,255,255,0.09);
+  --accent:    #7c6ff7;
+  --accent-2:  #a78bfa;
+  --text:      #e2e2f0;
+  --muted:     rgba(226,226,240,0.45);
+  --radius:    14px;
+  --nav-size:  48px;
 }
 
-#flipbook{
-    width:800px;
-    height:600px;
-    cursor:pointer;
+html, body {
+  height: 100%;
 }
 
-.page{
-    background:white;
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  /* Subtle noise-free dark base — no edge halos */
 }
 
-.page canvas{
-     width:100%;
-     height:100%;
-     pointer-events: none;
-    pointer-events:none;
- }
+/* ─────────────────────────────────────────────────────────────── */
+/*  GALLERY PAGE                                                   */
+/* ─────────────────────────────────────────────────────────────── */
+body.page-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Single centered glow at the very top of the document */
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(124,111,247,0.14) 0%, transparent 65%),
+    var(--bg);
+}
+
+/* Hero */
+#hero {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 72px 20px 52px;
+  overflow: hidden;
+}
+
+/* Subtle glow confined to the hero area only */
+#hero-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 100% at 50% 0%, rgba(124,111,247,0.13) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#hero-title {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(140deg, #fff 30%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+#hero-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Year Filter Tabs */
+#year-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 24px 32px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.year-tab {
+  padding: 6px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.year-tab:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(124,111,247,0.08);
+}
+.year-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(124,111,247,0.30);
+}
+
+/* Gallery Grid */
+#gallery-grid {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+/* Year Section */
+.year-section {}
+
+.year-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 20px;
+}
+
+/* PDF Card */
+.pdf-card {
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  animation: fadeUp 0.4s ease both;
+  cursor: pointer;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pdf-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(124,111,247,0.20), 0 2px 8px rgba(0,0,0,0.55);
+}
+
+/* Thumbnail */
+.thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.thumb-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--surface-2) 25%, #28284a 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.thumb-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.thumb-canvas.loaded { opacity: 1; }
+
+.thumb-wrap.thumb-error::after {
+  content: '📄';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+/* Card Info */
+.card-info {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 0.77rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.card-cta {
+  font-size: 0.77rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  margin-top: 6px;
+  transition: letter-spacing 0.2s;
+}
+.pdf-card:hover .card-cta { letter-spacing: 0.04em; }
+
+
+/* ─────────────────────────────────────────────────────────────── */
+/*  VIEWER PAGE                                                    */
+/* ─────────────────────────────────────────────────────────────── */
+body.page-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  /* Single centred glow — contained, does NOT bleed to edges */
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 55%, rgba(124,111,247,0.10) 0%, transparent 65%),
+    var(--bg);
+}
+
+/* Loader */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  transition: opacity 0.4s ease;
+}
+#loader.hidden { opacity: 0; pointer-events: none; }
+
+.spinner {
+  width: 46px;
+  height: 46px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loader-text {
+  font-size: 0.84rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+/* Viewer Wrap — column layout fills full viewport */
+#viewer-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 16px;
+  overflow: hidden;
+}
+
+/* Top Bar */
+#top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 980px;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+#back-btn {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 20px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+#back-btn:hover {
+  color: var(--accent-2);
+  border-color: var(--accent);
+  background: rgba(124,111,247,0.08);
+}
+
+#pdf-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#page-counter {
+  font-size: 0.82rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Stage — fills the middle space, buttons hug the flipbook */
+#stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Inner stage constrains the flipbook + button group */
+#stage-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: 100%;
+}
+
+/* Nav Buttons */
+.nav-btn {
+  flex-shrink: 0;
+  width: var(--nav-size);
+  height: var(--nav-size);
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  user-select: none;
+}
+.nav-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.08);
+  box-shadow: 0 4px 20px rgba(124,111,247,0.38);
+}
+.nav-btn:active { transform: scale(0.96); }
+.nav-btn:disabled { opacity: 0.22; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Flipbook Shell */
+#flipbook {
+  cursor: pointer;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 28px 70px rgba(0,0,0,0.75),
+    0 0 50px rgba(124,111,247,0.07);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* Pages */
+.page {
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shimmer placeholder shown for pages not yet rendered */
+.page-placeholder {
+  background: linear-gradient(90deg, #e8e8e8 25%, #d4d4d4 50%, #e8e8e8 75%);
+  background-size: 200% 100%;
+  animation: shimmer-light 1.4s infinite;
+}
+@keyframes shimmer-light {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+
+.page canvas {
+  display: block;
+  pointer-events: none;
+  /* NO forced width/height — JS sets exact pixel dimensions per page */
+}
+
+/* Bottom Hint */
+#bottom-bar {
+  text-align: center;
+  flex-shrink: 0;
+}
+#hint {
+  font-size: 0.73rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  opacity: 0.7;
+}

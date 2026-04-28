@@ -1,24 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jagruti Flipbook Library</title>
+  <meta name="description" content="Browse and read Jagruti magazine as an interactive flipbook." />
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <script src="./libs/turn.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<body class="page-gallery">
 
-<div id="flipbook"></div>
+  <!-- Hero -->
+  <header id="hero">
+    <div id="hero-glow"></div>
+    <h1 id="hero-title">📖 Jagruti Library</h1>
+    <p id="hero-sub">Browse and read every edition as an interactive flipbook</p>
+  </header>
 
-<script src="script.js"></script>
+  <!-- Year filter tabs -->
+  <div id="year-tabs"></div>
 
+  <!-- Grid -->
+  <main id="gallery-grid"></main>
+
+  <!-- Empty state -->
+  <p id="empty-state" style="display:none">No PDFs found in <code>pdfs.json</code>.</p>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>
+    async function renderThumbnail(fileSlug, canvas) {
+      try {
+        const pdf  = await pdfjsLib.getDocument(`./pdfs/${fileSlug}.pdf`).promise;
+        const page = await pdf.getPage(1);
+        const vp   = page.getViewport({ scale: 0.5 });
+        canvas.width  = vp.width;
+        canvas.height = vp.height;
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+        canvas.classList.add('loaded');
+      } catch (e) {
+        canvas.parentElement.classList.add('thumb-error');
+      }
+    }
+
+    function createCard(item, idx) {
+      const card = document.createElement('a');
+      card.href  = `./viewer.html?pdf=${encodeURIComponent(item.file)}&title=${encodeURIComponent(item.title)}`;
+      card.className = 'pdf-card';
+      card.style.animationDelay = `${(idx % 12) * 55}ms`;
+
+      const thumbWrap = document.createElement('div');
+      thumbWrap.className = 'thumb-wrap';
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'thumb-canvas';
+      thumbWrap.appendChild(canvas);
+
+      const skeleton = document.createElement('div');
+      skeleton.className = 'thumb-skeleton';
+      thumbWrap.appendChild(skeleton);
+
+      const info = document.createElement('div');
+      info.className = 'card-info';
+      info.innerHTML = `
+        <span class="card-title">${item.title}</span>
+        <span class="card-desc">${item.description || ''}</span>
+        <span class="card-cta">Read Now →</span>
+      `;
+
+      card.appendChild(thumbWrap);
+      card.appendChild(info);
+
+      renderThumbnail(item.file, canvas).then(() => {
+        skeleton.style.display = 'none';
+      });
+
+      return card;
+    }
+
+    async function buildGallery() {
+      const res  = await fetch('./pdfs.json');
+      const list = await res.json();
+      const grid = document.getElementById('gallery-grid');
+      const tabsEl = document.getElementById('year-tabs');
+
+      if (!list.length) {
+        document.getElementById('empty-state').style.display = 'block';
+        return;
+      }
+
+      // Group by year
+      const groups = {};
+      list.forEach(item => {
+        const year = item.year || 'Other';
+        if (!groups[year]) groups[year] = [];
+        groups[year].push(item);
+      });
+
+      const years = Object.keys(groups).sort((a, b) => b - a);
+
+      // Build year filter tabs
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'All';
+      allBtn.className = 'year-tab active';
+      allBtn.dataset.year = 'all';
+      tabsEl.appendChild(allBtn);
+
+      years.forEach(year => {
+        const btn = document.createElement('button');
+        btn.textContent = year;
+        btn.className = 'year-tab';
+        btn.dataset.year = year;
+        tabsEl.appendChild(btn);
+      });
+
+      // Tab click handler
+      tabsEl.addEventListener('click', e => {
+        if (!e.target.classList.contains('year-tab')) return;
+        document.querySelectorAll('.year-tab').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+
+        const selected = e.target.dataset.year;
+        document.querySelectorAll('.year-section').forEach(sec => {
+          sec.style.display = (selected === 'all' || sec.dataset.year === selected) ? '' : 'none';
+        });
+      });
+
+      // Render each year section
+      let globalIdx = 0;
+      years.forEach(year => {
+        const section = document.createElement('section');
+        section.className = 'year-section';
+        section.dataset.year = year;
+
+        const heading = document.createElement('h2');
+        heading.className = 'year-heading';
+        heading.textContent = year;
+        section.appendChild(heading);
+
+        const cardGrid = document.createElement('div');
+        cardGrid.className = 'card-grid';
+
+        groups[year].forEach(item => {
+          cardGrid.appendChild(createCard(item, globalIdx++));
+        });
+
+        section.appendChild(cardGrid);
+        grid.appendChild(section);
+      });
+    }
+
+    buildGallery().catch(console.error);
+  </script>
 </body>
 
 </html>
