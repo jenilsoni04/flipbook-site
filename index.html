@@ -53,7 +53,12 @@
     async function renderThumbnail(fileSlug, canvas) {
       await limitedThumb(async () => {
         try {
-          const pdf  = await pdfjsLib.getDocument(`./pdfs/${fileSlug}.pdf`).promise;
+          const loadingTask = pdfjsLib.getDocument({
+            url: `./pdfs/${fileSlug}.pdf`,
+            disableAutoFetch: true, // Prevents downloading the entire PDF in the background
+            disableStream: false
+          });
+          const pdf  = await loadingTask.promise;
           const page = await pdf.getPage(1);
           /* 0.3 scale: ~180×254px — plenty for a 195px wide card */
           const vp   = page.getViewport({ scale: 0.3 });
@@ -61,6 +66,10 @@
           canvas.height = vp.height;
           await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
           canvas.classList.add('loaded');
+          
+          // CRITICAL: Free memory & stop network streams after thumbnail is drawn
+          page.cleanup();
+          pdf.destroy();
         } catch (e) {
           canvas.parentElement.classList.add('thumb-error');
         }
