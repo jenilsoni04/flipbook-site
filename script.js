@@ -36,6 +36,9 @@ function getDisplaySize(rawW, rawH, divW, divH) {
 
 /* Render one PDF page into its placeholder div */
 async function renderPageIntoDiv(pageInfo, div, divW, divH) {
+  if (pageInfo.isRendered || pageInfo.isRendering) return;
+  pageInfo.isRendering = true;
+
   const { displayW, displayH } = getDisplaySize(pageInfo.rawW, pageInfo.rawH, divW, divH);
   /* Account for high-DPI (Retina) displays to prevent blurriness */
   const dpr = window.devicePixelRatio || 1;
@@ -55,6 +58,16 @@ async function renderPageIntoDiv(pageInfo, div, divW, divH) {
   /* Swap placeholder content for the real canvas */
   div.innerHTML = '';
   div.appendChild(canvas);
+  
+  pageInfo.isRendering = false;
+  pageInfo.isRendered = true;
+}
+
+function destroyPage(pageInfo, div) {
+  if (pageInfo.isRendered && !pageInfo.isRendering) {
+    div.innerHTML = ''; // Clear canvas to free memory
+    pageInfo.isRendered = false;
+  }
 }
 
 /* Plain placeholder — NO position:relative so turn.js layout is unaffected */
@@ -165,6 +178,7 @@ async function loadPDF() {
         turning(e, page) {
           updateCounter(page, totalPages);
           updateNavButtons(page, totalPages);
+          if (typeof manageMemory === 'function') manageMemory(page);
         },
       },
     });
@@ -183,28 +197,23 @@ async function loadPDF() {
     updateCounter(1, totalPages);
     updateNavButtons(1, totalPages);
 
-    /* STEP 5 — Background render remaining pages: batch of 6 in parallel */
-    const remaining = divs.slice(EAGER);
-
-    async function renderBatch(start) {
-      const BATCH = 6;
-      /* Render up to BATCH pages simultaneously */
-      await Promise.all(
-        remaining.slice(start, start + BATCH).map(({ div, divW, info }) =>
-          renderPageIntoDiv(info, div, divW, finalBookH)
-        )
-      );
-      const next = start + BATCH;
-      if (next < remaining.length) {
-        if (typeof requestIdleCallback !== 'undefined') {
-          requestIdleCallback(() => renderBatch(next), { timeout: 2000 });
+    /* STEP 5 — Just-In-Time (JIT) Memory Management */
+    window.manageMemory = function(currentPage) {
+      const BUFFER = 4; // Keep 4 pages ahead and 4 pages behind in memory
+      divs.forEach((item, index) => {
+        const pageNum = index + 1;
+        if (pageNum >= currentPage - BUFFER && pageNum <= currentPage + BUFFER) {
+          // Render if in buffer range
+          renderPageIntoDiv(item.info, item.div, item.divW, finalBookH);
         } else {
-          setTimeout(() => renderBatch(next), 50);
+          // Destroy canvas if outside buffer range to save RAM
+          destroyPage(item.info, item.div);
         }
-      }
-    }
+      });
+    };
 
-    if (remaining.length > 0) setTimeout(() => renderBatch(0), 300);
+    // Load initial buffer for the first page
+    manageMemory(1);
 
   } catch (err) {
     clearLoadTimeout();

@@ -67,11 +67,29 @@
       });
     }
 
+    const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const fileSlug = card.dataset.pdfSlug;
+          const canvas = card.querySelector('.thumb-canvas');
+          const skeleton = card.querySelector('.thumb-skeleton');
+          
+          renderThumbnail(fileSlug, canvas).then(() => {
+            skeleton.style.display = 'none';
+          });
+          
+          observer.unobserve(card);
+        }
+      });
+    }, { rootMargin: '150px' });
+
     function createCard(item, idx) {
       const card = document.createElement('a');
       card.href  = `./viewer.html?pdf=${encodeURIComponent(item.file)}&title=${encodeURIComponent(item.title)}`;
       card.className = 'pdf-card';
       card.style.animationDelay = `${(idx % 12) * 55}ms`;
+      card.dataset.pdfSlug = item.file; // Store for lazy loading
 
       const thumbWrap = document.createElement('div');
       thumbWrap.className = 'thumb-wrap';
@@ -95,9 +113,8 @@
       card.appendChild(thumbWrap);
       card.appendChild(info);
 
-      renderThumbnail(item.file, canvas).then(() => {
-        skeleton.style.display = 'none';
-      });
+      // Lazy load instead of immediate render
+      lazyLoadObserver.observe(card);
 
       return card;
     }
