@@ -106,11 +106,39 @@ function clearLoadTimeout() {
 
 /* ── Main loader ─────────────────────────────────────────────── */
 async function loadPDF() {
+  const progressBar = document.getElementById('progress-bar');
+  const progressPct = document.getElementById('progress-pct');
+
   try {
     startLoadTimeout();
-    loaderText.textContent = 'Loading PDF…';
-    const pdf        = await pdfjsLib.getDocument(pdfUrl).promise;
+    loaderText.textContent = 'Downloading PDF…';
+
+    /* Use disableAutoFetch to prevent downloading the entire PDF upfront */
+    const loadingTask = pdfjsLib.getDocument({
+      url: pdfUrl,
+      disableAutoFetch: true,
+      disableStream: false,
+    });
+
+    /* Track download progress */
+    loadingTask.onProgress = function(progress) {
+      if (progress.total > 0) {
+        const pct = Math.min(100, Math.round((progress.loaded / progress.total) * 100));
+        progressBar.style.width = pct + '%';
+        progressPct.textContent = pct + '%';
+      } else {
+        /* Unknown total — show indeterminate with loaded bytes */
+        const mb = (progress.loaded / 1048576).toFixed(1);
+        progressPct.textContent = mb + ' MB loaded';
+      }
+    };
+
+    const pdf = await loadingTask.promise;
     const totalPages = pdf.numPages;
+
+    /* Hide progress bar once document is parsed */
+    progressBar.style.width = '100%';
+    progressPct.textContent = '';
 
     /* STEP 1 — Fast Layout Analysis (Only fetch first 1-2 pages) */
     loaderText.textContent = 'Analysing layout…';
@@ -154,14 +182,10 @@ async function loadPDF() {
       flipbookEl.appendChild(div);
     }
 
-    /* STEP 3 — Render first 2 pages in parallel — show the book ASAP */
-    const EAGER = 2;
+    /* STEP 3 — Render ONLY page 1, show the book immediately */
     loaderText.textContent = `Opening flipbook…`;
-    await Promise.all(
-      divs.slice(0, Math.min(EAGER, totalPages)).map(({ div, fallbackDivW, finalBookW, info }) =>
-        renderPageIntoDiv(info, div, fallbackDivW, finalBookH, finalBookW, pdf)
-      )
-    );
+    const first = divs[0];
+    await renderPageIntoDiv(first.info, first.div, first.fallbackDivW, finalBookH, first.finalBookW, pdf);
 
     /* STEP 4 — Show flipbook & init turn.js */
     clearLoadTimeout();

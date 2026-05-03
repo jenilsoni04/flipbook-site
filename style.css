@@ -285,6 +285,27 @@ body.page-viewer {
   letter-spacing: 0.03em;
 }
 
+#progress-wrap {
+  width: 220px;
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 4px;
+  transition: width 0.15s ease;
+}
+#progress-pct {
+  font-size: 0.73rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-top: -8px;
+}
+
 /* Viewer Wrap — column layout fills full viewport */
 #viewer-wrap {
   display: flex;
