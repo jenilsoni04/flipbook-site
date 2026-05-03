@@ -14,7 +14,9 @@ const pdfTitle    = document.getElementById('pdf-title');
 
 /* Show readable title */
 const pdfTitleParam = params.get('title');
-pdfTitle.textContent = pdfTitleParam || pdfName.split('/').pop().replace(/[-_]/g, ' ');
+const displayTitle = pdfTitleParam || pdfName.split('/').pop().replace(/[-_]/g, ' ');
+pdfTitle.textContent = displayTitle;
+document.title = displayTitle + ' — Jagruti Library';
 
 /* ── Helpers ─────────────────────────────────────────────────── */
 function updateCounter(current, total) {
@@ -62,9 +64,25 @@ function createPlaceholderDiv(divW, divH) {
   return div;
 }
 
+/* ── Error timeout ─────────────────────────────────────────────── */
+let loadTimeoutId = null;
+function startLoadTimeout() {
+  loadTimeoutId = setTimeout(() => {
+    loaderText.innerHTML =
+      '⚠ Failed to load PDF — check your connection.<br>' +
+      '<button onclick="location.reload()" style="margin-top:14px;padding:8px 22px;' +
+      'border-radius:20px;border:none;background:#7c6ff7;color:#fff;font-size:0.85rem;' +
+      'cursor:pointer;">Retry</button>';
+  }, 20000);
+}
+function clearLoadTimeout() {
+  if (loadTimeoutId) clearTimeout(loadTimeoutId);
+}
+
 /* ── Main loader ─────────────────────────────────────────────── */
 async function loadPDF() {
   try {
+    startLoadTimeout();
     loaderText.textContent = 'Loading PDF…';
     const pdf        = await pdfjsLib.getDocument(pdfUrl).promise;
     const totalPages = pdf.numPages;
@@ -118,8 +136,12 @@ async function loadPDF() {
     }
 
     /* STEP 4 — Show flipbook & init turn.js */
+    clearLoadTimeout();
     loader.classList.add('hidden');
     setTimeout(() => { loader.style.display = 'none'; }, 450);
+
+    /* Reveal page counter now that we have real data */
+    pageCounter.style.visibility = 'visible';
 
     const $book = $('#flipbook');
     $book.turn({
@@ -178,9 +200,23 @@ async function loadPDF() {
     if (remaining.length > 0) setTimeout(() => renderBatch(0), 400);
 
   } catch (err) {
+    clearLoadTimeout();
     console.error('PDF load error:', err);
-    loaderText.textContent = '⚠ Failed to load PDF. Check the file name in the URL.';
+    loaderText.innerHTML =
+      '⚠ Failed to load PDF. Check the file name in the URL.<br>' +
+      '<button onclick="location.reload()" style="margin-top:14px;padding:8px 22px;' +
+      'border-radius:20px;border:none;background:#7c6ff7;color:#fff;font-size:0.85rem;' +
+      'cursor:pointer;">Retry</button>';
   }
 }
+
+/* ── Keyboard navigation ────────────────────────────────────── */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    if (!btnNext.disabled) $('#flipbook').turn('next');
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    if (!btnPrev.disabled) $('#flipbook').turn('previous');
+  }
+});
 
 loadPDF();

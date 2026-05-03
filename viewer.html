@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flipbook Viewer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +16,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="./libs/turn.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
 </head>
 
 <body class="page-viewer">
@@ -32,7 +34,7 @@
     <div id="top-bar">
       <a id="back-btn" href="./index.html" title="Back to Library">← Library</a>
       <span id="pdf-title">Flipbook</span>
-      <span id="page-counter">Page — / —</span>
+      <span id="page-counter" style="visibility:hidden">Page — / —</span>
     </div>
 
     <!-- Flipbook Stage -->
