@@ -35,22 +35,31 @@ function getDisplaySize(rawW, rawH, divW, divH) {
 }
 
 /* Render one PDF page into its placeholder div */
-async function renderPageIntoDiv(pageInfo, div, divW, divH) {
-  if (pageInfo.isRendered || pageInfo.isRendering) return;
-  pageInfo.isRendering = true;
+async function renderPageIntoDiv(info, div, fallbackDivW, divH, finalBookW, pdfDoc) {
+  if (info.isRendered || info.isRendering) return;
+  info.isRendering = true;
 
-  const { displayW, displayH } = getDisplaySize(pageInfo.rawW, pageInfo.rawH, divW, divH);
+  const page = await pdfDoc.getPage(info.pageNum);
+  const vp = page.getViewport({ scale: 1 });
+  const rawW = vp.width;
+  const rawH = vp.height;
+  const isSpread = rawW > rawH * 1.3;
+
+  const divW = isSpread ? finalBookW : fallbackDivW;
+  div.style.width = divW + 'px';
+
+  const { displayW, displayH } = getDisplaySize(rawW, rawH, divW, divH);
   /* Account for high-DPI (Retina) displays to prevent blurriness */
   const dpr = window.devicePixelRatio || 1;
   const renderScale = Math.max(1.2, dpr); /* Use device pixel ratio for crisp text */
-  const renderVp = pageInfo.pdfPage.getViewport({ scale: (displayW * renderScale) / pageInfo.rawW });
+  const renderVp = page.getViewport({ scale: (displayW * renderScale) / rawW });
   const canvas   = document.createElement('canvas');
   canvas.width   = renderVp.width;
   canvas.height  = renderVp.height;
   canvas.style.width  = displayW + 'px';
   canvas.style.height = displayH + 'px';
 
-  await pageInfo.pdfPage.render({
+  await page.render({
     canvasContext: canvas.getContext('2d'),
     viewport: renderVp,
   }).promise;
@@ -59,8 +68,8 @@ async function renderPageIntoDiv(pageInfo, div, divW, divH) {
   div.innerHTML = '';
   div.appendChild(canvas);
   
-  pageInfo.isRendering = false;
-  pageInfo.isRendered = true;
+  info.isRendering = false;
+  info.isRendered = true;
 }
 
 function destroyPage(pageInfo, div) {
@@ -103,27 +112,29 @@ async function loadPDF() {
     const pdf        = await pdfjsLib.getDocument(pdfUrl).promise;
     const totalPages = pdf.numPages;
 
-    /* STEP 1 — Collect ALL page dimensions in parallel (single round-trip per page) */
+    /* STEP 1 — Fast Layout Analysis (Only fetch first 1-2 pages) */
     loaderText.textContent = 'Analysing layout…';
-    const pageInfos = await Promise.all(
-      Array.from({ length: totalPages }, async (_, i) => {
-        const p  = await pdf.getPage(i + 1);
-        const vp = p.getViewport({ scale: 1 });
-        return {
-          pdfPage:  p,
-          isSpread: vp.width > vp.height * 1.3,
-          rawW:     vp.width,
-          rawH:     vp.height,
-        };
-      })
-    );
+    const p1 = await pdf.getPage(1);
+    const vp1 = p1.getViewport({ scale: 1 });
+    const isP1Spread = vp1.width > vp1.height * 1.3;
+    
+    let refInfo = { rawW: vp1.width, rawH: vp1.height };
+    let allSpreads = false;
 
-    const allSpreads = pageInfos.every(p => p.isSpread);
-
-    /* Narrowest portrait page as reference (minimises letterboxing) */
-    const portraitInfos = pageInfos.filter(p => !p.isSpread);
-    const refInfo = (portraitInfos.length ? portraitInfos : pageInfos)
-      .reduce((min, p) => (p.rawW / p.rawH) < (min.rawW / min.rawH) ? p : min);
+    // Determine layout from first two pages instead of scanning entire document
+    if (totalPages > 1) {
+      const p2 = await pdf.getPage(2);
+      const vp2 = p2.getViewport({ scale: 1 });
+      const isP2Spread = vp2.width > vp2.height * 1.3;
+      
+      if (isP1Spread && isP2Spread) {
+         allSpreads = true;
+      } else if (isP1Spread && !isP2Spread) {
+         refInfo = { rawW: vp2.width, rawH: vp2.height };
+      }
+    } else {
+      if (isP1Spread) allSpreads = true;
+    }
 
     const bookW = allSpreads ? refInfo.rawW : refInfo.rawW * 2;
     const bookH = refInfo.rawH;
@@ -134,13 +145,12 @@ async function loadPDF() {
     const finalBookH = Math.round(bookH * scale);
     const finalPageW = allSpreads ? finalBookW : Math.round(refInfo.rawW * scale);
 
-    /* STEP 2 — Insert ALL placeholder divs so turn.js sees the right page count */
+    /* STEP 2 — Insert ALL placeholder divs instantly */
     const divs = [];
     for (let i = 0; i < totalPages; i++) {
-      const info = pageInfos[i];
-      const divW = info.isSpread ? finalBookW : finalPageW;
-      const div  = createPlaceholderDiv(divW, finalBookH);
-      divs.push({ div, divW, info });
+      const info = { pageNum: i + 1, isRendered: false, isRendering: false };
+      const div  = createPlaceholderDiv(finalPageW, finalBookH);
+      divs.push({ div, fallbackDivW: finalPageW, finalBookW, info });
       flipbookEl.appendChild(div);
     }
 
@@ -148,8 +158,8 @@ async function loadPDF() {
     const EAGER = 2;
     loaderText.textContent = `Opening flipbook…`;
     await Promise.all(
-      divs.slice(0, Math.min(EAGER, totalPages)).map(({ div, divW, info }) =>
-        renderPageIntoDiv(info, div, divW, finalBookH)
+      divs.slice(0, Math.min(EAGER, totalPages)).map(({ div, fallbackDivW, finalBookW, info }) =>
+        renderPageIntoDiv(info, div, fallbackDivW, finalBookH, finalBookW, pdf)
       )
     );
 
@@ -204,7 +214,7 @@ async function loadPDF() {
         const pageNum = index + 1;
         if (pageNum >= currentPage - BUFFER && pageNum <= currentPage + BUFFER) {
           // Render if in buffer range
-          renderPageIntoDiv(item.info, item.div, item.divW, finalBookH);
+          renderPageIntoDiv(item.info, item.div, item.fallbackDivW, finalBookH, item.finalBookW, pdf);
         } else {
           // Destroy canvas if outside buffer range to save RAM
           destroyPage(item.info, item.div);
