@@ -111,7 +111,7 @@ async function loadPDF() {
 
   try {
     startLoadTimeout();
-    loaderText.textContent = 'Downloading PDF…';
+    loaderText.textContent = 'Loading PDF…';
 
     /* Use disableAutoFetch to prevent downloading the entire PDF upfront */
     const loadingTask = pdfjsLib.getDocument({
