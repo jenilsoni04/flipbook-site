@@ -37,7 +37,10 @@ function getDisplaySize(rawW, rawH, divW, divH) {
 /* Render one PDF page into its placeholder div */
 async function renderPageIntoDiv(pageInfo, div, divW, divH) {
   const { displayW, displayH } = getDisplaySize(pageInfo.rawW, pageInfo.rawH, divW, divH);
-  const renderVp = pageInfo.pdfPage.getViewport({ scale: (displayW * 1.5) / pageInfo.rawW });
+  /* Account for high-DPI (Retina) displays to prevent blurriness */
+  const dpr = window.devicePixelRatio || 1;
+  const renderScale = Math.max(1.2, dpr); /* Use device pixel ratio for crisp text */
+  const renderVp = pageInfo.pdfPage.getViewport({ scale: (displayW * renderScale) / pageInfo.rawW });
   const canvas   = document.createElement('canvas');
   canvas.width   = renderVp.width;
   canvas.height  = renderVp.height;
@@ -87,19 +90,20 @@ async function loadPDF() {
     const pdf        = await pdfjsLib.getDocument(pdfUrl).promise;
     const totalPages = pdf.numPages;
 
-    /* STEP 1 — Collect page dimensions (no pixel decoding yet) */
+    /* STEP 1 — Collect ALL page dimensions in parallel (single round-trip per page) */
     loaderText.textContent = 'Analysing layout…';
-    const pageInfos = [];
-    for (let i = 1; i <= totalPages; i++) {
-      const p  = await pdf.getPage(i);
-      const vp = p.getViewport({ scale: 1 });
-      pageInfos.push({
-        pdfPage:  p,
-        isSpread: vp.width > vp.height * 1.3,
-        rawW:     vp.width,
-        rawH:     vp.height,
-      });
-    }
+    const pageInfos = await Promise.all(
+      Array.from({ length: totalPages }, async (_, i) => {
+        const p  = await pdf.getPage(i + 1);
+        const vp = p.getViewport({ scale: 1 });
+        return {
+          pdfPage:  p,
+          isSpread: vp.width > vp.height * 1.3,
+          rawW:     vp.width,
+          rawH:     vp.height,
+        };
+      })
+    );
 
     const allSpreads = pageInfos.every(p => p.isSpread);
 
@@ -127,13 +131,14 @@ async function loadPDF() {
       flipbookEl.appendChild(div);
     }
 
-    /* STEP 3 — Render first few pages eagerly so flipbook appears fast */
-    const EAGER = 4;
-    for (let i = 0; i < Math.min(EAGER, totalPages); i++) {
-      loaderText.textContent = `Rendering page ${i + 1} of ${totalPages}…`;
-      const { div, divW, info } = divs[i];
-      await renderPageIntoDiv(info, div, divW, finalBookH);
-    }
+    /* STEP 3 — Render first 2 pages in parallel — show the book ASAP */
+    const EAGER = 2;
+    loaderText.textContent = `Opening flipbook…`;
+    await Promise.all(
+      divs.slice(0, Math.min(EAGER, totalPages)).map(({ div, divW, info }) =>
+        renderPageIntoDiv(info, div, divW, finalBookH)
+      )
+    );
 
     /* STEP 4 — Show flipbook & init turn.js */
     clearLoadTimeout();
@@ -178,15 +183,17 @@ async function loadPDF() {
     updateCounter(1, totalPages);
     updateNavButtons(1, totalPages);
 
-    /* STEP 5 — Background render remaining pages in small batches */
+    /* STEP 5 — Background render remaining pages: batch of 6 in parallel */
     const remaining = divs.slice(EAGER);
 
     async function renderBatch(start) {
-      const BATCH = 2;
-      for (let b = start; b < Math.min(start + BATCH, remaining.length); b++) {
-        const { div, divW, info } = remaining[b];
-        await renderPageIntoDiv(info, div, divW, finalBookH);
-      }
+      const BATCH = 6;
+      /* Render up to BATCH pages simultaneously */
+      await Promise.all(
+        remaining.slice(start, start + BATCH).map(({ div, divW, info }) =>
+          renderPageIntoDiv(info, div, divW, finalBookH)
+        )
+      );
       const next = start + BATCH;
       if (next < remaining.length) {
         if (typeof requestIdleCallback !== 'undefined') {
@@ -197,7 +204,7 @@ async function loadPDF() {
       }
     }
 
-    if (remaining.length > 0) setTimeout(() => renderBatch(0), 400);
+    if (remaining.length > 0) setTimeout(() => renderBatch(0), 300);
 
   } catch (err) {
     clearLoadTimeout();

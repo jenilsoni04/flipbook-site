@@ -36,18 +36,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
   <script>
-    async function renderThumbnail(fileSlug, canvas) {
-      try {
-        const pdf  = await pdfjsLib.getDocument(`./pdfs/${fileSlug}.pdf`).promise;
-        const page = await pdf.getPage(1);
-        const vp   = page.getViewport({ scale: 0.5 });
-        canvas.width  = vp.width;
-        canvas.height = vp.height;
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
-        canvas.classList.add('loaded');
-      } catch (e) {
-        canvas.parentElement.classList.add('thumb-error');
+    /* ── Thumbnail concurrency limiter (max 3 at once) ───────── */
+    let thumbSlots = 3;
+    const thumbQueue = [];
+    function runNextThumb() {
+      if (thumbSlots > 0 && thumbQueue.length > 0) {
+        thumbSlots--;
+        const { fn, resolve } = thumbQueue.shift();
+        fn().finally(() => { thumbSlots++; resolve(); runNextThumb(); });
       }
+    }
+    function limitedThumb(fn) {
+      return new Promise(resolve => { thumbQueue.push({ fn, resolve }); runNextThumb(); });
+    }
+
+    async function renderThumbnail(fileSlug, canvas) {
+      await limitedThumb(async () => {
+        try {
+          const pdf  = await pdfjsLib.getDocument(`./pdfs/${fileSlug}.pdf`).promise;
+          const page = await pdf.getPage(1);
+          /* 0.3 scale: ~180×254px — plenty for a 195px wide card */
+          const vp   = page.getViewport({ scale: 0.3 });
+          canvas.width  = vp.width;
+          canvas.height = vp.height;
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+          canvas.classList.add('loaded');
+        } catch (e) {
+          canvas.parentElement.classList.add('thumb-error');
+        }
+      });
     }
 
     function createCard(item, idx) {
