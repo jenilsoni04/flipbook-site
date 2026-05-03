@@ -207,19 +207,49 @@ async function loadPDF() {
     updateCounter(1, totalPages);
     updateNavButtons(1, totalPages);
 
-    /* STEP 5 — Just-In-Time (JIT) Memory Management */
+    /* STEP 5 — Just-In-Time (JIT) Prioritized Memory Management */
+    let renderQueue = [];
+    let isProcessingQueue = false;
+
+    async function processQueue() {
+      if (isProcessingQueue) return;
+      isProcessingQueue = true;
+      while (renderQueue.length > 0) {
+        // Sort so the page closest to what the user is currently viewing renders first
+        renderQueue.sort((a, b) => a.distance - b.distance);
+        const task = renderQueue.shift();
+        
+        // Double check it hasn't been scrolled out of buffer since being queued
+        if (task.info.pageNum >= window.currentFlipbookPage - window.memoryBuffer && 
+            task.info.pageNum <= window.currentFlipbookPage + window.memoryBuffer) {
+           await renderPageIntoDiv(task.info, task.div, task.fallbackDivW, finalBookH, task.finalBookW, pdf);
+        }
+      }
+      isProcessingQueue = false;
+    }
+
+    window.memoryBuffer = 5; // Keep 5 pages ahead/behind
+    window.currentFlipbookPage = 1;
+
     window.manageMemory = function(currentPage) {
-      const BUFFER = 4; // Keep 4 pages ahead and 4 pages behind in memory
+      window.currentFlipbookPage = currentPage;
+      
       divs.forEach((item, index) => {
         const pageNum = index + 1;
-        if (pageNum >= currentPage - BUFFER && pageNum <= currentPage + BUFFER) {
-          // Render if in buffer range
-          renderPageIntoDiv(item.info, item.div, item.fallbackDivW, finalBookH, item.finalBookW, pdf);
+        if (pageNum >= currentPage - window.memoryBuffer && pageNum <= currentPage + window.memoryBuffer) {
+          // If not rendered/rendering and not already in queue, queue it up
+          if (!item.info.isRendered && !item.info.isRendering && !renderQueue.some(t => t.info.pageNum === pageNum)) {
+             renderQueue.push({ ...item, distance: Math.abs(pageNum - currentPage) });
+          }
         } else {
-          // Destroy canvas if outside buffer range to save RAM
+          // Destroy canvas if outside buffer range to keep RAM flat
           destroyPage(item.info, item.div);
+          // Remove from queue if it was pending
+          renderQueue = renderQueue.filter(t => t.info.pageNum !== pageNum);
         }
       });
+      
+      processQueue();
     };
 
     // Load initial buffer for the first page
