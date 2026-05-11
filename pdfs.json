@@ -1,62 +1,890 @@
 [
   {
+    "file": "2024/JANUARY_2024_PDF_FILE_",
+    "title": "January 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/FEBRUARY_2024_PDF_FILE",
+    "title": "February 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/MARCH_2024_PDF_FILE_",
+    "title": "March 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/APRIL_2024_PDF_FILE_",
+    "title": "April 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/MAY_2024_PDF_FILE_",
+    "title": "May 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/JUNE_2024_PDF_FILE",
+    "title": "June 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/JULY_2024_PDF_FILE_",
+    "title": "July 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/AUGUST_2024_PDF_FILE_",
+    "title": "August 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/SEPTEMBER_2024_PDF_FILE_",
+    "title": "September 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/OCTOBER_2024_PDF_FILE_",
+    "title": "October 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/NOVEMBER_2024_PDF_FILE_",
+    "title": "November 2024",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2024/DECEMBER_2024_17_PARAISHAD_ANK_PDF_FILE_",
+    "title": "December 2024 17 Paraishad Ank",
+    "description": "Jagruti magazine, 2024 edition.",
+    "year": "2024"
+  },
+  {
+    "file": "2023/JAGRUTI_JANUARY_2023_PDF_FILE_",
+    "title": "Jagruti January 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_FEBRUARY_2023_PDF_FILE_",
+    "title": "Jagruti February 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_MARCH_2023_PDF_FILE_",
+    "title": "Jagruti March 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_APRIL_2023_PDF_FILE_",
+    "title": "Jagruti April 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_MAY_2023_PDF_FILE_",
+    "title": "Jagruti May 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_JUNE_2023_PDF_FILE_",
+    "title": "Jagruti June 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_JULY_2023_PDF_FILE_",
+    "title": "Jagruti July 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_AUGUST_2023_PDF_FILE_",
+    "title": "Jagruti August 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_SEPTEMBER_2023_PDF_FILE",
+    "title": "Jagruti September 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_OCTOBER_2023_FILE_NEW_",
+    "title": "Jagruti October 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_NOVEMBER_2023_PDF_FILE_",
+    "title": "Jagruti November 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2023/JAGRUTI_DECEMBER_2023_PDF_FILE_",
+    "title": "Jagruti December 2023",
+    "description": "Jagruti magazine, 2023 edition.",
+    "year": "2023"
+  },
+  {
+    "file": "2022/JAGRUTI_JANUARY_2022_PDF_FILE_",
+    "title": "Jagruti January 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_FEBRUARY_2022_PDF_FILE_",
+    "title": "Jagruti February 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_MARCH_2022_PDF_FILE_",
+    "title": "Jagruti March 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_APRIL_2022_PDF_FILE_",
+    "title": "Jagruti April 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_MAY_2022_PDF_FILE_",
+    "title": "Jagruti May 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_JUNE__2022_1_to_28_",
+    "title": "Jagruti June 2022 1 To 28",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_JULY_2022_PDF_FILE_",
+    "title": "Jagruti July 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_AUGUST_2022_PDF_FILE_",
+    "title": "Jagruti August 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_SEPTEMBER_2022_PDF_FILE_",
+    "title": "Jagruti September 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_OCTOBER_2022_PDF_FILE_",
+    "title": "Jagruti October 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_NOVEMBER_2022_PDF_FILE_",
+    "title": "Jagruti November 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2022/JAGRUTI_DECEMBER_2022_PDF_FILE_",
+    "title": "Jagruti December 2022",
+    "description": "Jagruti magazine, 2022 edition.",
+    "year": "2022"
+  },
+  {
+    "file": "2021/JAGRUTI_JANUARY_2021_PDF_FILE",
+    "title": "Jagruti January 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_FEBRUARY_2021_PDF_FILE",
+    "title": "Jagruti February 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_MARCH_2021_PDF_FILE",
+    "title": "Jagruti March 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_APRIL_2021_PDF_FILE",
+    "title": "Jagruti April 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_MAY_JUNE_2021_PDF_FILE",
+    "title": "Jagruti May June 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_JULY_2021_PDF_FILE",
+    "title": "Jagruti July 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_ AUGUST_ 2021_ PDF_ FILE",
+    "title": "Jagruti August 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_SEPTEMBER_2021_PDF_FILE",
+    "title": "Jagruti September 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_OCTOBER_2021_PDF_FILE",
+    "title": "Jagruti October 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_NOVEMBER_2021_PDF_FILE",
+    "title": "Jagruti November 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2021/JAGRUTI_DECEMBER_2021_PDF_FILE",
+    "title": "Jagruti December 2021",
+    "description": "Jagruti magazine, 2021 edition.",
+    "year": "2021"
+  },
+  {
+    "file": "2020/JAGRUTI_JANUARY_2020_PDF_FILE",
+    "title": "Jagruti January 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_FEBRUARY_2020_PDF_FILE",
+    "title": "Jagruti February 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI MARCH 2020 PDF FILE",
+    "title": "Jagruti March 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_JUNE_JULY_2020_PDF_FILE",
+    "title": "Jagruti June July 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_SEPTEMBER_2020_PDF_FILE",
+    "title": "Jagruti September 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_OCTOBER_2020_PDF_FILE",
+    "title": "Jagruti October 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_NOVEMBER_2020_PDF_FILE",
+    "title": "Jagruti November 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2020/JAGRUTI_DECEMBER_2020_PDF_FILE",
+    "title": "Jagruti December 2020",
+    "description": "Jagruti magazine, 2020 edition.",
+    "year": "2020"
+  },
+  {
+    "file": "2019/Jagruti_January_2019_PDF",
+    "title": "Jagruti January 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_February_2019_Final_ok",
+    "title": "Jagruti February 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_March_PDF_Final",
+    "title": "Jagruti March",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_April_2019_Final",
+    "title": "Jagruti April 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_May_2019_PDF",
+    "title": "Jagruti May 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_June_2019_PDF",
+    "title": "Jagruti June 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_July_2019",
+    "title": "Jagruti July 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_August_2019_Pdf",
+    "title": "Jagruti August 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_September_2019",
+    "title": "Jagruti September 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_November_2019_PDF",
+    "title": "Jagruti November 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_Decemeber_2019_Final PDF",
+    "title": "Jagruti Decemeber 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2019/Jagruti_Ocotber_2019_Final_PDF",
+    "title": "Jagruti Ocotber 2019",
+    "description": "Jagruti magazine, 2019 edition.",
+    "year": "2019"
+  },
+  {
+    "file": "2018/Jagruti_January_2018",
+    "title": "Jagruti January 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_February_2018",
+    "title": "Jagruti February 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_March_2018",
+    "title": "Jagruti March 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_April_2018_PDF (1)",
+    "title": "Jagruti April 2018 (1)",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_June_2018_PDF",
+    "title": "Jagruti June 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_July_2018_PDF FIle",
+    "title": "Jagruti July 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_August_2018_",
+    "title": "Jagruti August 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_September_2018",
+    "title": "Jagruti September 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_October_2018",
+    "title": "Jagruti October 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_November_2018",
+    "title": "Jagruti November 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2018/Jagruti_December_2018",
+    "title": "Jagruti December 2018",
+    "description": "Jagruti magazine, 2018 edition.",
+    "year": "2018"
+  },
+  {
+    "file": "2017/Jagruti_January_2017",
+    "title": "Jagruti January 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_February_2017",
+    "title": "Jagruti February 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_March_2017",
+    "title": "Jagruti March 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_April_2017",
+    "title": "Jagruti April 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_May_2017",
+    "title": "Jagruti May 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_June_2017",
+    "title": "Jagruti June 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_July_2017",
+    "title": "Jagruti July 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_August_2017",
+    "title": "Jagruti August 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_September_2017",
+    "title": "Jagruti September 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_October_2017",
+    "title": "Jagruti October 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_November_2017",
+    "title": "Jagruti November 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2017/Jagruti_December_2017",
+    "title": "Jagruti December 2017",
+    "description": "Jagruti magazine, 2017 edition.",
+    "year": "2017"
+  },
+  {
+    "file": "2016/Jagruti_Januarty_2016 web",
+    "title": "Jagruti Januarty 2016 Web",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_Febuarty_2016",
+    "title": "Jagruti Febuarty 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_March_2016",
+    "title": "Jagruti March 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti-April-2016",
+    "title": "Jagruti-april-2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_May_2016",
+    "title": "Jagruti May 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_June_2016",
+    "title": "Jagruti June 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagaruti_July_2016",
+    "title": "Jagaruti July 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_August_2016 (1)",
+    "title": "Jagruti August 2016 (1)",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_September_2016",
+    "title": "Jagruti September 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagrut-October-2016",
+    "title": "Jagrut-october-2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_November_2016",
+    "title": "Jagruti November 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2016/Jagruti_December_2016_PDF",
+    "title": "Jagruti December 2016",
+    "description": "Jagruti magazine, 2016 edition.",
+    "year": "2016"
+  },
+  {
+    "file": "2015/Jagruti_January_2015",
+    "title": "Jagruti January 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_February_2015",
+    "title": "Jagruti February 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_March_2015",
+    "title": "Jagruti March 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_April_2015",
+    "title": "Jagruti April 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_May_2015",
+    "title": "Jagruti May 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_June_2015",
+    "title": "Jagruti June 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_July_2015",
+    "title": "Jagruti July 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagurit_August_2015",
+    "title": "Jagurit August 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_September_2015",
+    "title": "Jagruti September 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_October_2015",
+    "title": "Jagruti October 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_November_2015",
+    "title": "Jagruti November 2015",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2015/Jagruti_December_2015_For Website",
+    "title": "Jagruti December 2015 For Website",
+    "description": "Jagruti magazine, 2015 edition.",
+    "year": "2015"
+  },
+  {
+    "file": "2013/Jagruti_January_2013",
+    "title": "Jagruti January 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_Febuary_2013",
+    "title": "Jagruti Febuary 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_March_2013",
+    "title": "Jagruti March 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_April_2013",
+    "title": "Jagruti April 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_May_2013",
+    "title": "Jagruti May 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_June_2013",
+    "title": "Jagruti June 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_July_2013",
+    "title": "Jagruti July 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_August_2013",
+    "title": "Jagruti August 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_September_2013",
+    "title": "Jagruti September 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_October_2013",
+    "title": "Jagruti October 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_November_2013",
+    "title": "Jagruti November 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2013/Jagruti_December_2013",
+    "title": "Jagruti December 2013",
+    "description": "Jagruti magazine, 2013 edition.",
+    "year": "2013"
+  },
+  {
+    "file": "2012/Jagruti_January_2012_New",
+    "title": "Jagruti January 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_February_2012_New",
+    "title": "Jagruti February 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_March_2012",
+    "title": "Jagruti March 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_April_2012",
+    "title": "Jagruti April 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_May_2012",
+    "title": "Jagruti May 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_June_2012",
+    "title": "Jagruti June 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_July_2012",
+    "title": "Jagruti July 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_August_2012",
+    "title": "Jagruti August 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_September_2012",
+    "title": "Jagruti September 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_October_2012",
+    "title": "Jagruti October 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_November_2012",
+    "title": "Jagruti November 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
+    "file": "2012/Jagruti_December_2012",
+    "title": "Jagruti December 2012",
+    "description": "Jagruti magazine, 2012 edition.",
+    "year": "2012"
+  },
+  {
     "file": "2011/Jagruti_February_2011_New",
-    "title": "Jagruti - February 2011",
-    "description": "Jagruti magazine, February 2011 edition.",
+    "title": "Jagruti February 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_March_2011_New",
-    "title": "Jagruti - March 2011",
-    "description": "Jagruti magazine, March 2011 edition.",
+    "title": "Jagruti March 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_April_2011_New",
-    "title": "Jagruti - April 2011",
-    "description": "Jagruti magazine, April 2011 edition.",
+    "title": "Jagruti April 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_May_2011_New",
-    "title": "Jagruti - May 2011",
-    "description": "Jagruti magazine, May 2011 edition.",
+    "title": "Jagruti May 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_Jun_2011_New",
-    "title": "Jagruti - June 2011",
-    "description": "Jagruti magazine, June 2011 edition.",
+    "title": "Jagruti Jun 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_July_2011_New",
-    "title": "Jagruti - July 2011",
-    "description": "Jagruti magazine, July 2011 edition.",
+    "title": "Jagruti July 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_August_2011_New",
-    "title": "Jagruti - August 2011",
-    "description": "Jagruti magazine, August 2011 edition.",
+    "title": "Jagruti August 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_September_2011_New",
-    "title": "Jagruti - September 2011",
-    "description": "Jagruti magazine, September 2011 edition.",
+    "title": "Jagruti September 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_Octber & November_2011_New",
-    "title": "Jagruti - October & November 2011",
-    "description": "Combined double edition covering October and November 2011.",
+    "title": "Jagruti Octber & November 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   },
   {
     "file": "2011/Jagruti_December_2011_New",
-    "title": "Jagruti - December 2011",
-    "description": "Jagruti magazine, December 2011 edition.",
+    "title": "Jagruti December 2011",
+    "description": "Jagruti magazine, 2011 edition.",
     "year": "2011"
   }
 ]

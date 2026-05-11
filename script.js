@@ -35,7 +35,7 @@ function getDisplaySize(rawW, rawH, divW, divH) {
 }
 
 /* Render one PDF page into its placeholder div */
-async function renderPageIntoDiv(info, div, fallbackDivW, divH, finalBookW, pdfDoc) {
+async function renderPageIntoDiv(info, div, divW, divH, _unused, pdfDoc) {
   if (info.isRendered || info.isRendering) return;
   info.isRendering = true;
 
@@ -43,15 +43,12 @@ async function renderPageIntoDiv(info, div, fallbackDivW, divH, finalBookW, pdfD
   const vp = page.getViewport({ scale: 1 });
   const rawW = vp.width;
   const rawH = vp.height;
-  const isSpread = rawW > rawH * 1.3;
 
-  const divW = isSpread ? finalBookW : fallbackDivW;
-  div.style.width = divW + 'px';
-
+  /* Always use the fixed page width — Turn.js handles the double-page layout */
   const { displayW, displayH } = getDisplaySize(rawW, rawH, divW, divH);
   /* Account for high-DPI (Retina) displays to prevent blurriness */
   const dpr = window.devicePixelRatio || 1;
-  const renderScale = Math.max(1.2, dpr); /* Use device pixel ratio for crisp text */
+  const renderScale = Math.max(1.2, dpr);
   const renderVp = page.getViewport({ scale: (displayW * renderScale) / rawW });
   const canvas   = document.createElement('canvas');
   canvas.width   = renderVp.width;
@@ -178,14 +175,14 @@ async function loadPDF() {
     for (let i = 0; i < totalPages; i++) {
       const info = { pageNum: i + 1, isRendered: false, isRendering: false };
       const div  = createPlaceholderDiv(finalPageW, finalBookH);
-      divs.push({ div, fallbackDivW: finalPageW, finalBookW, info });
+      divs.push({ div, divW: finalPageW, info });
       flipbookEl.appendChild(div);
     }
 
     /* STEP 3 — Render ONLY page 1, show the book immediately */
     loaderText.textContent = `Opening flipbook…`;
     const first = divs[0];
-    await renderPageIntoDiv(first.info, first.div, first.fallbackDivW, finalBookH, first.finalBookW, pdf);
+    await renderPageIntoDiv(first.info, first.div, first.divW, finalBookH, null, pdf);
 
     /* STEP 4 — Show flipbook & init turn.js */
     clearLoadTimeout();
@@ -206,7 +203,7 @@ async function loadPDF() {
        * Turn.js natively shows page 1 (cover) alone on the right and the
        * last page alone on the left — no manual single/double switching needed.
        */
-      display:    allSpreads ? 'single' : 'double',
+      display:    'double',
       elevation:  50,
       when: {
         turning(e, page) {
@@ -246,7 +243,7 @@ async function loadPDF() {
         // Double check it hasn't been scrolled out of buffer since being queued
         if (task.info.pageNum >= window.currentFlipbookPage - window.memoryBuffer && 
             task.info.pageNum <= window.currentFlipbookPage + window.memoryBuffer) {
-           await renderPageIntoDiv(task.info, task.div, task.fallbackDivW, finalBookH, task.finalBookW, pdf);
+           await renderPageIntoDiv(task.info, task.div, task.divW, finalBookH, null, pdf);
         }
       }
       isProcessingQueue = false;
