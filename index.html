@@ -129,7 +129,7 @@
     }
 
     async function buildGallery() {
-      const res  = await fetch('./pdfs.json');
+      const res  = await fetch('./pdfs.json?v=' + new Date().getTime());
       const list = await res.json();
       const grid = document.getElementById('gallery-grid');
       const tabsEl = document.getElementById('year-tabs');
