@@ -175,6 +175,9 @@ async function loadPDF() {
     for (let i = 0; i < totalPages; i++) {
       const info = { pageNum: i + 1, isRendered: false, isRendering: false };
       const div  = createPlaceholderDiv(finalPageW, finalBookH);
+      if (i === totalPages - 1) {
+        div.classList.add('page-last');
+      }
       divs.push({ div, divW: finalPageW, info });
       flipbookEl.appendChild(div);
     }
@@ -193,6 +196,7 @@ async function loadPDF() {
     pageCounter.style.visibility = 'visible';
 
     const $book = $('#flipbook');
+    $book.addClass('page-cover'); // Set initial layout state for the cover
     $book.turn({
       width:      finalBookW,
       height:     finalBookH,
@@ -210,6 +214,16 @@ async function loadPDF() {
           updateCounter(page, totalPages);
           updateNavButtons(page, totalPages);
           if (typeof manageMemory === 'function') manageMemory(page);
+
+          // Update dynamic layout classes for background & shadow alignment
+          $book.removeClass('page-cover page-spread page-back');
+          if (page === 1) {
+            $book.addClass('page-cover');
+          } else if (page === totalPages) {
+            $book.addClass('page-back');
+          } else {
+            $book.addClass('page-spread');
+          }
         },
       },
     });
@@ -287,13 +301,34 @@ async function loadPDF() {
   }
 }
 
-/* ── Keyboard navigation ────────────────────────────────────── */
+/* ── Keyboard navigation & Protection ────────────────────────── */
 document.addEventListener('keydown', (e) => {
+  // Arrow key navigation
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
     if (!btnNext.disabled) $('#flipbook').turn('next');
   } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
     if (!btnPrev.disabled) $('#flipbook').turn('previous');
   }
+  
+  // Disable Ctrl+S / Cmd+S (Save Page)
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+  }
+  
+  // Disable Ctrl+P / Cmd+P (Print Page)
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+    e.preventDefault();
+  }
+});
+
+// Disable right-click context menu to prevent downloading/saving canvas
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
+
+// Disable dragging images/elements
+document.addEventListener('dragstart', (e) => {
+  e.preventDefault();
 });
 
 loadPDF();
